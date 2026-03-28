@@ -1,0 +1,6 @@
+[tool.pytest.ini_options]
+markers = [
+    "integration: marks tests as integration tests (requires Go service running)"
+]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
