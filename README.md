@@ -231,6 +231,84 @@ curl "http://localhost:8080/health"
 
 ---
 
+### Task 5 — WebSocket чат на Go с Python-клиентом
+
+**Расположение:** `task5/`
+
+**Структура:**
+- `main.go` — WebSocket сервер на Go (порт 8080)
+- `main_test.go` — Go тесты для сервера
+- `client.py` — интерактивный Python-клиент
+- `test_chat.py` — Pytest тесты для проверки чата
+
+**Установка зависимостей:**
+```bash
+cd task5
+pip install websockets pytest pytest-asyncio
+```
+
+**Запуск сервера:**
+```bash
+cd task5
+go mod tidy
+go run main.go
+```
+Сервер запустится на порту `8080`.
+
+**Запуск Go тестов:**
+```bash
+cd task5
+go test -v
+```
+
+**Запуск Pytest тестов:**
+```bash
+cd task5
+python -m pytest test_chat.py -v
+```
+
+**Запуск Python-клиента:**
+```bash
+cd task5
+python client.py
+```
+
+**Демо-режим клиента:**
+```bash
+cd task5
+python client.py --demo
+```
+
+**Команды клиента:**
+- `/nick <name>` — сменить никнейм
+- `/quit` — выйти из чата
+- `/help` — показать справку
+- `<сообщение>` — отправить сообщение в чат
+
+**Эндпоинты сервера:**
+- `GET /ws` — WebSocket подключение
+- `GET /clients` — количество подключенных клиентов (JSON)
+
+**Примеры запросов:**
+```bash
+# Проверка количества клиентов
+curl http://localhost:8080/clients
+
+# WebSocket подключение (через wscat или клиент)
+wscat -c ws://localhost:8080/ws
+```
+
+**Формат сообщений:**
+```json
+// Отправка сообщения
+{"type": "chat", "content": "Hello!"}
+
+// Смена никнейма
+{"type": "nick_change", "new_nickname": "NewName"}
+```
+
+---
+
 ## Требования
 
 ### Python
