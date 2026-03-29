@@ -159,6 +159,78 @@ curl -X POST http://localhost:8000/items \
 
 ---
 
+### Task 4 — API-шлюз на Go для микросервисов (Python, Go)
+
+**Расположение:** `task4/`
+
+**Структура:**
+- `gateway/main.go` — API Gateway (порт 8080)
+- `user-service/main.go` — User Service на Go (порт 8081)
+- `order-service/app.py` — Order Service на Python/Flask (порт 8082)
+- `gateway/main_test.go` — Go тесты для gateway
+- `user-service/main_test.go` — Go тесты для user-service
+- `test_services.py` — Pytest тесты (order service + integration)
+
+**Установка зависимостей:**
+```bash
+cd task4
+pip install -r requirements.txt
+```
+
+**Запуск User Service (Go):**
+```bash
+cd task4/user-service
+go run main.go
+```
+
+**Запуск Order Service (Python):**
+```bash
+cd task4/order-service
+python app.py
+```
+
+**Запуск API Gateway (Go):**
+```bash
+cd task4/gateway
+go run main.go
+```
+
+**Запуск Go тестов:**
+```bash
+cd task4
+go test -v ./...
+```
+
+**Запуск Pytest тестов:**
+```bash
+cd task4
+python -m pytest test_services.py -v
+```
+
+**Эндпоинты Gateway:**
+- `GET /api/user?id={id}` — получить информацию о пользователе
+- `GET /api/orders?user_id={id}` — получить заказы пользователя
+- `GET /api/profile?id={id}` — получить профиль (пользователь + заказы)
+- `GET /health` — проверка здоровья шлюза и сервисов
+- `GET /` — информация об API
+
+**Примеры запросов:**
+```bash
+# Получить пользователя
+curl "http://localhost:8080/api/user?id=1"
+
+# Получить заказы
+curl "http://localhost:8080/api/orders?user_id=1"
+
+# Получить полный профиль
+curl "http://localhost:8080/api/profile?id=1"
+
+# Проверка здоровья
+curl "http://localhost:8080/health"
+```
+
+---
+
 ## Требования
 
 ### Python
